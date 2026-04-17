@@ -306,6 +306,78 @@ document.addEventListener('DOMContentLoaded', function() {
             suggestionsList.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--accent);">Great job! Your resume looks solid.</p>';
         }
         
+        // Career Path
+        const careerPaths = document.getElementById('careerPaths');
+        if (data.career_analysis && data.career_analysis.career_paths && data.career_analysis.career_paths.length > 0) {
+            careerPaths.innerHTML = data.career_analysis.career_paths.map(path => `
+                <div class="career-path-card">
+                    <div class="career-path-header">
+                        <h4>${escapeHtml(path.title)}</h4>
+                        <span class="match-percentage">${path.score}%</span>
+                    </div>
+                    <p class="career-path-desc">${escapeHtml(path.description)}</p>
+                    <div class="career-path-roles">
+                        <span class="role-current">Current: ${escapeHtml(path.current_role)}</span>
+                        <span class="role-arrow">→</span>
+                        <span class="role-next">Next: ${escapeHtml(path.next_role)}</span>
+                    </div>
+                    <div class="skills-to-learn">
+                        <h5>Skills to Learn:</h5>
+                        <div class="skills-list">
+                            ${path.skills_to_learn.map(s => `<span class="skill-tag recommended">${escapeHtml(s)}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            careerPaths.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-secondary);">Upload a resume to see career path recommendations</p>';
+        }
+        
+        // Skill Upgrades
+        const skillUpgrades = document.getElementById('skillUpgrades');
+        const rec = data.skill_recommendations;
+        if (rec && (rec.high_demand?.length > 0 || rec.complementary?.length > 0 || rec.emerging?.length > 0)) {
+            let upgradesHtml = '';
+            
+            if (rec.high_demand && rec.high_demand.length > 0) {
+                upgradesHtml += `
+                    <div class="skill-category">
+                        <h4>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            High Demand Skills
+                        </h4>
+                        <p>These skills are frequently requested by employers</p>
+                        <div class="skills-list">
+                            ${rec.high_demand.map(s => `<span class="skill-tag recommended">${escapeHtml(s)}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (rec.emerging && rec.emerging.length > 0) {
+                upgradesHtml += `
+                    <div class="skill-category">
+                        <h4>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                            </svg>
+                            Emerging Technologies
+                        </h4>
+                        <p>Skills gaining traction in the industry</p>
+                        <div class="skills-list">
+                            ${rec.emerging.map(s => `<span class="skill-tag emerging">${escapeHtml(s)}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            skillUpgrades.innerHTML = upgradesHtml;
+        } else {
+            skillUpgrades.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--text-secondary);">No specific recommendations at this time</p>';
+        }
+        
         // Job matches
         const jobsGrid = document.getElementById('jobsGrid');
         if (data.job_matches && data.job_matches.length > 0) {

@@ -779,3 +779,121 @@ body {
 .job-card:nth-child(3) { animation-delay: 0.2s; }
 .job-card:nth-child(4) { animation-delay: 0.3s; }
 .job-card:nth-child(5) { animation-delay: 0.4s; }
+
+/* Career Path Section */
+.career-paths {
+    display: grid;
+    gap: 16px;
+}
+
+.career-path-card {
+    padding: 20px;
+    background: var(--background);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+}
+
+.career-path-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.career-path-header h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.career-path-header .match-percentage {
+    font-size: 20px;
+}
+
+.career-path-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.career-path-roles {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.role-current {
+    color: var(--text-secondary);
+}
+
+.role-arrow {
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.role-next {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.skills-to-learn h5 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-tag.recommended {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.skill-tag.emerging {
+    background: rgba(139, 92, 246, 0.1);
+    color: #8B5CF6;
+    border: 1px solid #8B5CF6;
+}
+
+/* Skill Upgrades */
+.skill-upgrades {
+    display: grid;
+    gap: 16px;
+}
+
+.skill-category {
+    padding: 16px;
+    background: var(--background);
+    border-radius: var(--radius);
+}
+
+.skill-category h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--secondary);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.skill-category h4 svg {
+    width: 16px;
+    height: 16px;
+    color: var(--primary);
+}
+
+.skill-category > p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}

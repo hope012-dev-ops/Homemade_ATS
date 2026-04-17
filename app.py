@@ -8,6 +8,7 @@ from utils.parser import parse_resume, allowed_file
 from utils.analyzer import ResumeAnalyzer
 from utils.selling_points import extract_selling_points
 from utils.matcher import get_job_matcher
+from utils.career_path import analyze_career_path, get_skill_recommendations
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
@@ -57,6 +58,13 @@ def analyze():
             'skills': selling_points['skills']
         })
         
+        career_analysis = analyze_career_path({
+            'text': parsed['text'],
+            'skills': selling_points['skills']
+        })
+        
+        skill_recommendations = get_skill_recommendations(selling_points['skills']['technical'])
+        
         os.remove(filepath)
         
         return jsonify({
@@ -70,7 +78,9 @@ def analyze():
                 'formatting_issues': formatting_issues,
                 'suggestions': suggestions,
                 'selling_points': selling_points,
-                'job_matches': job_matches
+                'job_matches': job_matches,
+                'career_analysis': career_analysis,
+                'skill_recommendations': skill_recommendations
             }
         })
         
