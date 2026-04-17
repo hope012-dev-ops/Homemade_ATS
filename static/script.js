@@ -157,15 +157,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (data.grammar_errors && data.grammar_errors.length > 0) {
             errorCount.textContent = `${data.grammar_errors.length} issues`;
-            errorsList.innerHTML = data.grammar_errors.map(error => `
-                <div class="error-item">
-                    <span class="error-type">${error.type || 'Grammar'}</span>
-                    <div class="error-content">
-                        <p class="error-context">${escapeHtml(error.context || '')}</p>
-                        <p class="error-suggestion">${escapeHtml(error.message || error.suggestion || '')}</p>
+            errorsList.innerHTML = data.grammar_errors.map(error => {
+                const contextText = typeof error.context === 'object' ? (error.context.text || '') : (error.context || '');
+                const message = error.message || error.suggestion || '';
+                return `
+                    <div class="error-item">
+                        <span class="error-type">${error.type || 'Grammar'}</span>
+                        <div class="error-content">
+                            <p class="error-context"><strong>Found:</strong> ${escapeHtml(contextText)}</p>
+                            <p class="error-suggestion"><strong>Suggestion:</strong> ${escapeHtml(message)}</p>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         } else {
             errorCount.textContent = '0 issues';
             errorCount.className = 'badge badge-success';
@@ -304,6 +308,30 @@ document.addEventListener('DOMContentLoaded', function() {
             `).join('');
         } else {
             suggestionsList.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--accent);">Great job! Your resume looks solid.</p>';
+        }
+        
+        // Format grammar suggestions for display
+        const grammarSuggestions = data.suggestions?.grammar_suggestions || [];
+        const formattingSuggestions = data.suggestions?.formatting_suggestions || [];
+        
+        // Add grammar suggestions to the list
+        if (grammarSuggestions.length > 0) {
+            const grammarHtml = grammarSuggestions.map(s => `
+                <div class="suggestion-item">
+                    <svg class="suggestion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                    <div class="suggestion-content">
+                        <h4>Fix: ${escapeHtml(s.error?.substring(0, 50) || 'Grammar issue')}</h4>
+                        <p>Change to: <strong>${escapeHtml(s.fix || '')}</strong></p>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Insert grammar suggestions at the top
+            const existingContent = suggestionsList.innerHTML;
+            suggestionsList.innerHTML = grammarHtml + existingContent;
         }
         
         // Career Path

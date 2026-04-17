@@ -415,24 +415,27 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    max-height: 500px;
+    overflow-y: auto;
 }
 
 .error-item {
     display: flex;
     gap: 12px;
-    padding: 12px;
+    padding: 16px;
     background: var(--background);
     border-radius: var(--radius);
-    border-left: 3px solid var(--error);
+    border-left: 4px solid var(--error);
+    flex-shrink: 0;
 }
 
 .error-type {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
-    padding: 2px 8px;
+    padding: 4px 10px;
     border-radius: 4px;
-    background: rgba(239, 68, 68, 0.1);
+    background: rgba(239, 68, 68, 0.15);
     color: var(--error);
     white-space: nowrap;
     height: fit-content;
@@ -443,17 +446,27 @@ body {
 }
 
 .error-context {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text-primary);
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.error-context strong {
+    color: var(--error);
 }
 
 .error-suggestion {
     font-size: 13px;
     color: var(--accent);
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    line-height: 1.4;
+    padding: 8px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: var(--radius-sm);
+}
+
+.error-suggestion strong {
+    color: var(--accent);
 }
 
 .error-suggestion::before {
